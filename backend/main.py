@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 
-from agents.planner import create_plan
-from execution.execution_manager import execute_plan
+from backend.agents.planner import create_plan
+from backend.execution.execution_manager import execute_plan
 
 app = FastAPI(title="ORION")
 
