@@ -1,13 +1,18 @@
 from playwright.sync_api import sync_playwright
+from backend.services.search_service import SearchService
+from backend.utils.selectors import *
 
 
 class BrowserAgent:
+
     def __init__(self):
+
         self.playwright = None
         self.browser = None
         self.page = None
 
     def open_browser(self):
+
         print("[Browser Agent] Launching browser...")
 
         self.playwright = sync_playwright().start()
@@ -18,19 +23,24 @@ class BrowserAgent:
 
         self.page = self.browser.new_page()
 
-        print("[Browser Agent] Browser launched successfully.")
+    def search_google(self, query):
 
-    def open_google(self):
-        print("[Browser Agent] Opening Google...")
+        print(f"[Browser Agent] Searching: {query}")
 
-        self.page.goto("https://www.google.com")
+        self.page.goto(GOOGLE_URL)
 
-        print("[Browser Agent] Google opened.")
+        self.page.fill(SEARCH_BOX, query)
+
+        self.page.keyboard.press("Enter")
+
+        self.page.wait_for_load_state("networkidle")
+
+        return SearchService.extract_results(self.page)
 
     def close_browser(self):
-        print("[Browser Agent] Closing browser...")
 
         self.browser.close()
+
         self.playwright.stop()
 
-        print("[Browser Agent] Browser closed.")
+        print("[Browser Agent] Closed.")

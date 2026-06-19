@@ -1,24 +1,14 @@
 from backend.agents.browser_agent import BrowserAgent
 
 
-def execute_plan(plan):
-
-    logs = []
+def execute_plan(goal):
 
     browser = BrowserAgent()
 
     browser.open_browser()
 
-    for step in plan:
-
-        log = f"Executing: {step}"
-        print(log)
-        logs.append(log)
-
-    browser.open_google()
-
-    input("\nPress Enter to close the browser...")
+    results = browser.search_google(goal)
 
     browser.close_browser()
 
-    return logs
+    return results

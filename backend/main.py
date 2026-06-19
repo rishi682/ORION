@@ -16,11 +16,11 @@ def run_task(request: TaskRequest):
 
     plan = create_plan(request.goal)
 
-    logs = execute_plan(plan)
+    results = execute_plan(request.goal)
 
     return {
         "goal": request.goal,
         "plan": plan,
-        "status": "SUCCESS",
-        "steps_executed": len(logs)
+        "results": results,
+        "status": "SUCCESS"
     }
